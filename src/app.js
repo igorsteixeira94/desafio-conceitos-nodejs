@@ -30,7 +30,7 @@ app.put("/repositories/:id", (request, response) => {
 
    
   if(!validate(id)){
-   return response.status(401).json({error:'Id is not uuid'})
+   return response.status(400).json();
   }
 
   function updateRepositorie(element){
@@ -50,18 +50,46 @@ app.put("/repositories/:id", (request, response) => {
     }
 
   }
-  
+
   repositories.forEach(updateRepositorie);
+  return response.status(400).json();
 
 
 });
 
 app.delete("/repositories/:id", (request, response) => {
-  // TODO
+  const {id} = request.params;
+
+  if(!validate(id)){
+    return response.status(400).json();
+  }
+
+  const index = repositories.findIndex(repository => repository.id === id);
+
+  if(index === -1){
+    return response.status(400).json();
+  }
+
+  repositories.splice(index,1);
+  return response.status(204).json();
+
 });
 
 app.post("/repositories/:id/like", (request, response) => {
-  // TODO
+  const {id} = request.params;
+
+  if(!validate(id)){
+    return response.status(400).json();
+  }
+
+  function addLike(element){
+    if(element.id === id){
+      element.likes = element.likes +1;
+      return response.json(element);
+    }
+  }
+  repositories.forEach(addLike);
+  return response.status(400).json();
 });
 
 module.exports = app;
