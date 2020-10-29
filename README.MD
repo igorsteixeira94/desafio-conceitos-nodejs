@@ -1,4 +1,4 @@
-## Primeiro desafio do GoStack 
+## Desafio 02 do GoStack 
 
 Criar uma api para cadastro e like de repositórios.
 
